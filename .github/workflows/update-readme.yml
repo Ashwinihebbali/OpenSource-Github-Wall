@@ -1,0 +1,60 @@
+name: Update README Contributors
+
+on:
+  push:
+    paths:
+      - 'contributors/*.json'
+      - '.github/workflows/update-readme.yml'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Generate contributor grid
+        run: |
+          echo "<table>" > grid.html
+          echo "<tr>" >> grid.html
+
+          count=0
+
+          for file in contributors/*.json; do
+            github=$(jq -r '.github' "$file")
+            username=$(basename "$github")
+
+            echo "<td align='center' width='120px'>" >> grid.html
+            echo "<a href='https://github.com/$username'>" >> grid.html
+            echo "<img src='https://github.com/$username.png' width='80px' style='border-radius:50%'><br>" >> grid.html
+            echo "<sub><b>$username</b></sub>" >> grid.html
+            echo "</a>" >> grid.html
+            echo "</td>" >> grid.html
+
+            count=$((count+1))
+
+            if [ $count -eq 6 ]; then
+              echo "</tr><tr>" >> grid.html
+              count=0
+            fi
+          done
+
+          echo "</tr>" >> grid.html
+          echo "</table>" >> grid.html
+
+      - name: Insert into README
+        run: |
+          awk '
+          BEGIN {p=1}
+          /<!-- CONTRIBUTORS-LIST:START -->/ {print; system("cat grid.html"); p=0; next}
+          /<!-- CONTRIBUTORS-LIST:END -->/ {p=1}
+          p' README.md > README.tmp && mv README.tmp README.md
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add README.md
+          git commit -m "Update contributor grid" || echo "No changes"
+          git push

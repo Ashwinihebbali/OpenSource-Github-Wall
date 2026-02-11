@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "required": ["name", "country", "role", "github"],
+  "properties": {
+    "name": { "type": "string" },
+    "country": { "type": "string" },
+    "role": { "type": "string" },
+    "github": { "type": "string" },
+    "linkedin": { "type": "string" },
+    "highlight": { "type": "string" }
+  }
+}
