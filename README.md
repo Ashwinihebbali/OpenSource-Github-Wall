@@ -65,6 +65,12 @@ Read **CONTRIBUTING.md** before opening a pull request.
 </a>
 </td>
 <td align='center' width='120px'>
+<a href='https://github.com/Ashwinihebbali'>
+<img src='https://avatars.githubusercontent.com/u/187790797?v=4' width='80px' style='border-radius:50%'><br>
+<sub><b>Ashwini Vishal</b></sub>
+</a>
+</td>
+<td align='center' width='120px'>
 <a href='https://github.com/Dev-Arun7'>
 <img src='https://github.com/Dev-Arun7.png' width='80px' style='border-radius:50%'><br>
 <sub><b>Dev-Arun7</b></sub>
